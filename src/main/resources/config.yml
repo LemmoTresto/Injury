@@ -1,0 +1,18 @@
+# All effects.
+# Every effect can be disabled.
+# The health requirement is at what health the effect gets activated.
+# For example 6.0 is that if you have 3 or less hearts the effect gets activated.
+# Maximum health is 20.0
+# The amplifer is the amplifier for the effect.
+# Particles: do you want to show particles?
+effects:
+  blindess-effect:
+    enabled: true
+    health-requirement: 6.0
+    amplifier: 1
+    particles: false
+  slowness-effect:
+    enabled: true
+    health-requirement: 6.0
+    amplifier: 1
+    particles: false
