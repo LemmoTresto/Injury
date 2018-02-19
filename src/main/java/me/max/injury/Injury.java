@@ -23,6 +23,7 @@
 package me.max.injury;
 
 import me.max.injury.listeners.PlayerDamageListener;
+import me.max.injury.listeners.PlayerHealListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -47,6 +48,7 @@ public final class Injury extends JavaPlugin {
         try {
             getLogger().info("Initialising listeners..");
             new PlayerDamageListener(this);
+            new PlayerHealListener(this);
             getLogger().info("Successfully initialised listeners");
         } catch (Exception e){
             getLogger().severe("Could not initialise listeners");
