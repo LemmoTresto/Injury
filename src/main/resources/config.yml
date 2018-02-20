@@ -6,12 +6,12 @@
 # The amplifer is the amplifier for the effect.
 # Particles: do you want to show particles?
 effects:
-  blindness-effect:
+  blindness:
     enabled: true
     health-requirement: 6.0
     amplifier: 1
     particles: false
-  slowness-effect:
+  slowness:
     enabled: true
     health-requirement: 6.0
     amplifier: 1

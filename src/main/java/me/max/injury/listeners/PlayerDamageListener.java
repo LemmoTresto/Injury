@@ -49,12 +49,20 @@ public class PlayerDamageListener implements Listener {
 
         if (p.getHealth() <= 0) return; //player is dead.
 
-        if (injury.getConfig().getBoolean("blindness-effect.enabled")){
-            if (p.getHealth() <= injury.getConfig().getDouble("blindness-effect.health-requirement")) p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 99999999, injury.getConfig().getInt("blindness-effect.amplifier"), false, injury.getConfig().getBoolean("blindness-effect.particles")));
+        if (injury.getConfig().getBoolean("effects.blindness.enabled")){
+            Double healthRequirement = injury.getConfig().getDouble("effects.blindness.health-requirement");
+            int amplifier = injury.getConfig().getInt("effects.blindness.amplifier");
+            boolean particles = injury.getConfig().getBoolean("effects.blindness.particles");
+            PotionEffect potionEffect = new PotionEffect(PotionEffectType.BLINDNESS, 999999, amplifier, false, particles);
+            if (p.getHealth() <= healthRequirement) p.addPotionEffect(potionEffect);
         }
 
-        if (injury.getConfig().getBoolean("slowness-effect.enabled")){
-            if (p.getHealth() <= injury.getConfig().getDouble("slowness-effect.health-requirement")) p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 99999999, injury.getConfig().getInt("slowness-effect.amplifier"), false, injury.getConfig().getBoolean("slowness-effect.particles")));
+        if (injury.getConfig().getBoolean("effects.slowness.enabled")){
+            Double healthRequirement = injury.getConfig().getDouble("effects.slowness.health-requirement");
+            int amplifier = injury.getConfig().getInt("effects.slowness.amplifier");
+            boolean particles = injury.getConfig().getBoolean("effects.slowness.particles");
+            PotionEffect potionEffect = new PotionEffect(PotionEffectType.SLOW, 999999, amplifier, false, particles);
+            if (p.getHealth() <= healthRequirement) p.addPotionEffect(potionEffect);
         }
     }
 }
