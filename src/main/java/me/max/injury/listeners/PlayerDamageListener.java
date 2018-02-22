@@ -48,8 +48,9 @@ public class PlayerDamageListener implements Listener {
         Player p = (Player) event.getEntity();
 
         if (p.getHealth() <= 0) return; //player is dead.
+        if (p.hasPermission("injury.bypass")) return;
 
-        if (injury.getConfig().getBoolean("effects.blindness.enabled")){
+        if (injury.getConfig().getBoolean("effects.blindness.enabled") && !p.hasPermission("injury.blindness.bypass")){
             Double healthRequirement = injury.getConfig().getDouble("effects.blindness.health-requirement");
             int amplifier = injury.getConfig().getInt("effects.blindness.amplifier");
             boolean particles = injury.getConfig().getBoolean("effects.blindness.particles");
@@ -57,7 +58,7 @@ public class PlayerDamageListener implements Listener {
             if (p.getHealth() <= healthRequirement) p.addPotionEffect(potionEffect);
         }
 
-        if (injury.getConfig().getBoolean("effects.slowness.enabled")){
+        if (injury.getConfig().getBoolean("effects.slowness.enabled") && !p.hasPermission("injury.slowness.bypass")){
             Double healthRequirement = injury.getConfig().getDouble("effects.slowness.health-requirement");
             int amplifier = injury.getConfig().getInt("effects.slowness.amplifier");
             boolean particles = injury.getConfig().getBoolean("effects.slowness.particles");

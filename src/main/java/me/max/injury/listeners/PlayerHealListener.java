@@ -46,11 +46,11 @@ public class PlayerHealListener implements Listener {
 
         Player p = (Player) event.getEntity();
 
-        if (injury.getConfig().getBoolean("effects.blindness.enabled")){
+        if (injury.getConfig().getBoolean("effects.blindness.enabled") && !p.hasPermission("injury.blindness.bypass")){
             if (injury.getConfig().getDouble("effects.blindness.health-requirement") < p.getHealth()) p.removePotionEffect(PotionEffectType.BLINDNESS);
         }
 
-        if (injury.getConfig().getBoolean("effects.slowness.enabled")){
+        if (injury.getConfig().getBoolean("effects.slowness.enabled") && !p.hasPermission("injury.slowness.bypass")){
             if (injury.getConfig().getDouble("effects.slowness.health-requirement") < p.getHealth()) p.removePotionEffect(PotionEffectType.SLOW);
         }
     }
