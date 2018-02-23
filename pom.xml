@@ -28,7 +28,7 @@
 
     <groupId>me.max.injury</groupId>
     <artifactId>Injury</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>Injury</name>
