@@ -1,5 +1,7 @@
 # All effects.
+# You can add any effect by it's name!
 # Every effect can be disabled.
+# Bypass permission, the permission a user needs to bypass this effect completely.
 # The health requirement is at what health the effect gets activated.
 # For example 6.0 is that if you have 3 or less hearts the effect gets activated.
 # Maximum health is 20.0
@@ -8,11 +10,13 @@
 effects:
   blindness:
     enabled: true
+    bypass-permission: "injury.blindness.bypass"
     health-requirement: 6.0
     amplifier: 1
     particles: false
-  slowness:
+  slow:
     enabled: true
+    bypass-permission: "injury.slowness.bypass"
     health-requirement: 6.0
     amplifier: 1
     particles: false

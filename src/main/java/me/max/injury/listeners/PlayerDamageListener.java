@@ -23,6 +23,7 @@
 package me.max.injury.listeners;
 
 import me.max.injury.Injury;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,20 +51,19 @@ public class PlayerDamageListener implements Listener {
         if (p.getHealth() <= 0) return; //player is dead.
         if (p.hasPermission("injury.bypass")) return;
 
-        if (injury.getConfig().getBoolean("effects.blindness.enabled") && !p.hasPermission("injury.blindness.bypass")){
-            Double healthRequirement = injury.getConfig().getDouble("effects.blindness.health-requirement");
-            int amplifier = injury.getConfig().getInt("effects.blindness.amplifier");
-            boolean particles = injury.getConfig().getBoolean("effects.blindness.particles");
-            PotionEffect potionEffect = new PotionEffect(PotionEffectType.BLINDNESS, 999999, amplifier, false, particles);
-            if (p.getHealth() <= healthRequirement) p.addPotionEffect(potionEffect);
-        }
+        for (String key : injury.getConfig().getConfigurationSection("effects").getKeys(false)){
+            ConfigurationSection effectSection = injury.getConfig().getConfigurationSection("effects." + key);
 
-        if (injury.getConfig().getBoolean("effects.slowness.enabled") && !p.hasPermission("injury.slowness.bypass")){
-            Double healthRequirement = injury.getConfig().getDouble("effects.slowness.health-requirement");
-            int amplifier = injury.getConfig().getInt("effects.slowness.amplifier");
-            boolean particles = injury.getConfig().getBoolean("effects.slowness.particles");
-            PotionEffect potionEffect = new PotionEffect(PotionEffectType.SLOW, 999999, amplifier, false, particles);
-            if (p.getHealth() <= healthRequirement) p.addPotionEffect(potionEffect);
+            if (!effectSection.getBoolean("enabled")) continue;
+            if (p.hasPermission(effectSection.getString("bypass-permission"))) continue;
+
+            Double healthRequirement = effectSection.getDouble("health-requirement");
+            if (p.getHealth() > healthRequirement) continue;
+
+            PotionEffectType type = PotionEffectType.getByName(key);
+            if (type == null) continue;
+
+            p.addPotionEffect(new PotionEffect(type, 999999, effectSection.getInt("amplifier"), false, effectSection.getBoolean("particles")));
         }
     }
 }

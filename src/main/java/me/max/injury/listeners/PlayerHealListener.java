@@ -23,11 +23,13 @@
 package me.max.injury.listeners;
 
 import me.max.injury.Injury;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class PlayerHealListener implements Listener {
@@ -46,12 +48,17 @@ public class PlayerHealListener implements Listener {
 
         Player p = (Player) event.getEntity();
 
-        if (injury.getConfig().getBoolean("effects.blindness.enabled") && !p.hasPermission("injury.blindness.bypass")){
-            if (injury.getConfig().getDouble("effects.blindness.health-requirement") < p.getHealth()) p.removePotionEffect(PotionEffectType.BLINDNESS);
-        }
+        for (String key : injury.getConfig().getConfigurationSection("effects").getKeys(false)){
+            ConfigurationSection effectSection = injury.getConfig().getConfigurationSection("effects." + key);
+            if (!effectSection.getBoolean("enabled")) continue;
 
-        if (injury.getConfig().getBoolean("effects.slowness.enabled") && !p.hasPermission("injury.slowness.bypass")){
-            if (injury.getConfig().getDouble("effects.slowness.health-requirement") < p.getHealth()) p.removePotionEffect(PotionEffectType.SLOW);
+            Double healthRequirement = effectSection.getDouble("health-requirement");
+            if (p.getHealth() <= healthRequirement) continue;
+
+            PotionEffectType type = PotionEffectType.getByName(key);
+            if (type == null) continue;
+
+            p.removePotionEffect(type);
         }
     }
 }
